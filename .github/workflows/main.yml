@@ -47,7 +47,7 @@ jobs:
       - name: Deploy application and PostgreSQL with docker-compose
         run: |
           # Parar e remover containers antigos, se existirem
-          docker-compose -f ./rest-api/docker-compose.yml down || true
+          docker-compose -f ./rest-api/docker-compose.yaml down || true
 
           # Subir os serviços definidos no docker-compose
-          docker-compose -f ./rest-api/docker-compose.yml up -d
+          docker-compose -f ./rest-api/docker-compose.yaml up -d
