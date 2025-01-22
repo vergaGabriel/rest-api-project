@@ -52,32 +52,37 @@ jobs:
           # Subir os serviços definidos no docker-compose
           docker-compose -f ./rest-api/docker-compose.yaml up -d
 
-      # 7. Instalando ngrok
-      - name: Install ngrok
+      # 6. Instalar Heroku CLI
+      - name: Install Heroku CLI
         run: |
-          curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \
-          | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null \
-          && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" \
-          | sudo tee /etc/apt/sources.list.d/ngrok.list \
-          && sudo apt update \
-          && sudo apt install -y ngrok
-          
-      # 8. Autenticando ngrok
-      - name: Authenticate ngrok
-        run: |
-          ngrok authtoken ${{ secrets.NGROK_AUTH_TOKEN }}
-          
-      # 9. Expondo url a ngrok
-      - name: Expose Application with ngrok
-        run: |
-          ngrok http 8080 > ngrok.log &
-          sleep 30  # Aumentando o tempo de espera
-          cat ngrok.log  # Exibe os últimos 10 logs do ngrok
-          url=$(cat ngrok.log | grep -o 'https://[0-9a-z]*\.ngrok.io')
-          echo "ngrok URL: $url"  # Exibe o URL gerado pelo ngrok
+          curl https://cli-assets.heroku.com/install.sh | sh
 
-      # 10. Esperando ngrok ficar pronto
-      - name: Wait for ngrok to be ready
+      # 7. Autenticar no Heroku
+      - name: Authenticate with Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
-          sleep 15
-          curl -v http://localhost:4040/status
+          echo "machine api.heroku.com" > ~/.netrc
+          echo "  login ${{ secrets.HEROKU_EMAIL }}" >> ~/.netrc
+          echo "  password ${{ secrets.HEROKU_API_KEY }}" >> ~/.netrc
+          echo "machine git.heroku.com" >> ~/.netrc
+          echo "  login ${{ secrets.HEROKU_EMAIL }}" >> ~/.netrc
+          echo "  password ${{ secrets.HEROKU_API_KEY }}" >> ~/.netrc
+          chmod 600 ~/.netrc
+          heroku auth:whoami
+
+      # 8. Criar ou usar app existente no Heroku
+      - name: Create Heroku App if it doesn't exist
+        run: |
+          heroku apps:info -a ${{ secrets.HEROKU_APP_NAME }} || heroku create ${{ secrets.HEROKU_APP_NAME }}
+
+      # 9. Configurar Docker no Heroku
+      - name: Set Heroku stack to container
+        run: heroku stack:set container -a ${{ secrets.HEROKU_APP_NAME }}
+
+      # 10. Fazer o deploy para o Heroku
+      - name: Deploy to Heroku
+        run: |
+          heroku container:login
+          heroku container:push web -a ${{ secrets.HEROKU_APP_NAME }}
+          heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
