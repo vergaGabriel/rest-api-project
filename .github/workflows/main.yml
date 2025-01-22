@@ -56,8 +56,8 @@ jobs:
       - name: Install ngrok
         run: |
          wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-          unzip ngrok-stable-linux-amd64.zip
-          sudo mv ngrok /usr/local/bin
+         unzip ngrok-stable-linux-amd64.zip
+         sudo mv ngrok /usr/local/bin
           
       # 8. Instalando ngrok
       - name: Authenticate ngrok
