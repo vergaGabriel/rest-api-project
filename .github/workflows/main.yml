@@ -51,3 +51,24 @@ jobs:
 
           # Subir os serviços definidos no docker-compose
           docker-compose -f ./rest-api/docker-compose.yaml up -d
+
+      # 7. Instalando ngrok
+      - name: Install ngrok
+        run: |
+         wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+          unzip ngrok-stable-linux-amd64.zip
+          sudo mv ngrok /usr/local/bin
+          
+      # 8. Expondo url a ngrok
+      - name: Expose Application with ngrok
+        run: |
+          ngrok http 8080 > ngrok.log &
+          sleep 5
+          cat ngrok.log | grep -o 'https://[0-9a-z]*\.ngrok.io'
+        continue-on-error: true
+
+      # 9. Esperando ngrok ficar pronto
+      - name: Wait for ngrok to be ready
+        run: |
+          sleep 5
+          curl -v http://localhost:4040/status
