@@ -26,17 +26,24 @@ jobs:
           java-version: 21
           distribution: 'temurin'
 
-      # 3. Build do projeto Spring Boot com Maven
+      # 3. Instalar Docker Compose
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
+
+      # 4. Build do projeto Spring Boot com Maven
       - name: Build Spring Boot application
         run: mvn clean package -DskipTests 
         working-directory: ./rest-api # Caminho do projeto Spring Boot no repositório
 
-      # 4. Build da imagem Docker para a aplicação
+      # 5. Build da imagem Docker para a aplicação
       - name: Build Docker image
         run: docker build -t vergaGabriel/rest-api:latest -f ./rest-api/Dockerfile.dockerfile ./rest-api
         #working-directory: ./rest-api
 
-      # 5. Deploy usando docker-compose
+      # 6. Deploy usando docker-compose
       - name: Deploy application and PostgreSQL with docker-compose
         run: |
           # Parar e remover containers antigos, se existirem
