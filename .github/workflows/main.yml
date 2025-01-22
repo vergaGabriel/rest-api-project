@@ -40,7 +40,7 @@ jobs:
 
       # 5. Build da imagem Docker para a aplicação
       - name: Build Docker image
-        run: docker build -t vergaGabriel/rest-api:latest -f ./rest-api/Dockerfile.dockerfile ./rest-api
+        run: docker build -t vergaGabriel/rest-api:latest -f ./rest-api/Dockerfile ./rest-api
         #working-directory: ./rest-api
 
       # 6. Deploy usando docker-compose
