@@ -22,7 +22,7 @@ services:
     networks:
       - postgres-compose-network
 
-  spring-boot-app:
+  rest-api:
     build:
       context: .
     container_name: rest-api
