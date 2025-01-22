@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login e Cadastro</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div id="login" class="form-container">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" name="email" placeholder="Digite seu email" required>
+
+                <label for="loginPassword">Senha</label>
+                <input type="password" id="loginPassword" name="password" placeholder="Digite sua senha" required>
+
+                <button type="submit">Login</button>
+            </form>
+            <p>Não tem uma conta? <a href="#" id="showRegister">Cadastre-se</a></p>
+        </div>
+
+        <div id="register" class="form-container hidden">
+            <h2>Cadastro</h2>
+            <form id="registerForm">
+                <label for="registerName">Nome completo</label>
+                <input type="text" id="registerName" name="name" placeholder="Digite seu nome completo" required>
+
+                <label for="registerAge">Idade</label>
+                <input type="number" id="registerAge" name="age" placeholder="Digite sua idade" required>
+
+                <label for="registerAddress">Endereço</label>
+                <input type="text" id="registerAddress" name="address" placeholder="Digite seu endereço" required>
+
+                <label for="registerEmail">Email</label>
+                <input type="email" id="registerEmail" name="email" placeholder="Digite seu email" required>
+
+                <label for="registerPassword">Senha</label>
+                <input type="password" id="registerPassword" name="password" placeholder="Digite sua senha" required>
+
+                <button type="submit">Cadastrar</button>
+            </form>
+            <p>Já tem uma conta? <a href="#" id="showLogin">Faça login</a></p>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+</html>

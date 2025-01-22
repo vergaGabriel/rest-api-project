@@ -1,0 +1,40 @@
+services:
+  verga-postgres-compose:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "postgresql"
+    ports:
+      - "15432:5432"
+    volumes:
+      - C:\Java\docker\postgresql\PostgreSQL:/var/lib/postgresql/data 
+    networks:
+      - postgres-compose-network
+      
+  verga-pgadmin-compose:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "gabriel_verga@hotmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "Admin2025@"
+    ports:
+      - "16543:80"
+    depends_on:
+      - verga-postgres-compose
+    networks:
+      - postgres-compose-network
+
+  spring-boot-app:
+    build:
+      context: .
+    container_name: spring-boot-app
+    ports:
+      - "8081:8080"
+    depends_on:
+      - verga-postgres-compose
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:15432/tb_vendas_teste
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgresql
+
+networks: 
+  postgres-compose-network:
+    driver: bridge
