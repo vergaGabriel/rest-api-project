@@ -25,7 +25,7 @@ services:
   spring-boot-app:
     build:
       context: .
-    container_name: spring-boot-app
+    container_name: rest-api
     ports:
       - "8081:8080"
     depends_on:
