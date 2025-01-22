@@ -55,8 +55,8 @@ jobs:
       # 7. Instalando ngrok
       - name: Install ngrok
         run: |
-          wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64-3.2.0.zip
-          unzip ngrok-stable-linux-amd64-3.2.0.zip
+          wget https://bin.ngrok.com/ngrok-v3-stable-linux-amd64.zip
+          unzip ngrok-v3-stable-linux-amd64.zip
           sudo mv ngrok /usr/local/bin/ngrok
 
       # 8. Atualizando ngrok
