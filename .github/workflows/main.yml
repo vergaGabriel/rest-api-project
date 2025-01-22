@@ -52,6 +52,10 @@ jobs:
           # Subir os serviços definidos no docker-compose
           docker-compose -f ./rest-api/docker-compose.yaml up -d
 
+      # 6.1. Listar docker images
+      - name: List Docker images
+        run: docker images
+
       # 6. Instalar Heroku CLI
       - name: Install Heroku CLI
         run: |
