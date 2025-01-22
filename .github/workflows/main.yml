@@ -63,9 +63,10 @@ jobs:
       - name: Expose Application with ngrok
         run: |
           ngrok http 8080 > ngrok.log &
-          sleep 15
-          cat ngrok.log | grep -o 'https://[0-9a-z]*\.ngrok.io'
-        continue-on-error: true
+          sleep 15  # Aumentando o tempo de espera
+          tail -n 10 ngrok.log  # Exibe os últimos 10 logs do ngrok
+          url=$(cat ngrok.log | grep -o 'https://[0-9a-z]*\.ngrok.io')
+          echo "ngrok URL: $url"  # Exibe o URL gerado pelo ngrok
 
       # 9. Esperando ngrok ficar pronto
       - name: Wait for ngrok to be ready
