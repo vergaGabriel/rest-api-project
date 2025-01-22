@@ -6,7 +6,7 @@ services:
     ports:
       - "15432:5432"
     volumes:
-      - C:\Java\docker\postgresql\PostgreSQL:/var/lib/postgresql/data 
+      - postgres-data:/var/lib/postgresql/data
     networks:
       - postgres-compose-network
       
