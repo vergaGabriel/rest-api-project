@@ -38,3 +38,5 @@ services:
 networks: 
   postgres-compose-network:
     driver: bridge
+volumes:
+  postgres-data:
