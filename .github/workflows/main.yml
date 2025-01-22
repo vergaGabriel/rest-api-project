@@ -28,13 +28,13 @@ jobs:
 
       # 3. Build do projeto Spring Boot com Maven
       - name: Build Spring Boot application
-        run: mvn clean package -DskipTests
+        run: mvn clean package -DskipTests 
         working-directory: ./rest-api # Caminho do projeto Spring Boot no repositório
 
       # 4. Build da imagem Docker para a aplicação
       - name: Build Docker image
-        run: docker build -t vergaGabriel/rest-api:latest .
-        working-directory: ./rest-api
+        run: docker build -t vergaGabriel/rest-api:latest -f ./rest-api/Dockerfile ./rest-api
+        #working-directory: ./rest-api
 
       # 5. Deploy usando docker-compose
       - name: Deploy application and PostgreSQL with docker-compose
