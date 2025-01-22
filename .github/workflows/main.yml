@@ -63,12 +63,12 @@ jobs:
       - name: Expose Application with ngrok
         run: |
           ngrok http 8080 > ngrok.log &
-          sleep 5
+          sleep 15
           cat ngrok.log | grep -o 'https://[0-9a-z]*\.ngrok.io'
         continue-on-error: true
 
       # 9. Esperando ngrok ficar pronto
       - name: Wait for ngrok to be ready
         run: |
-          sleep 5
+          sleep 15
           curl -v http://localhost:4040/status
