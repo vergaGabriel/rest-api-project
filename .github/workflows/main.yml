@@ -59,7 +59,12 @@ jobs:
           unzip ngrok-stable-linux-amd64.zip
           sudo mv ngrok /usr/local/bin
           
-      # 8. Expondo url a ngrok
+      # 8. Instalando ngrok
+      - name: Authenticate ngrok
+        run: |
+          echo "${{ secrets.NGROK_AUTH_TOKEN }}" | ngrok authtoken
+          
+      # 9. Expondo url a ngrok
       - name: Expose Application with ngrok
         run: |
           ngrok http 8080 > ngrok.log &
@@ -68,7 +73,7 @@ jobs:
           url=$(cat ngrok.log | grep -o 'https://[0-9a-z]*\.ngrok.io')
           echo "ngrok URL: $url"  # Exibe o URL gerado pelo ngrok
 
-      # 9. Esperando ngrok ficar pronto
+      # 10. Esperando ngrok ficar pronto
       - name: Wait for ngrok to be ready
         run: |
           sleep 15
