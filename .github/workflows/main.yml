@@ -75,18 +75,23 @@ jobs:
           chmod 600 ~/.netrc
           heroku auth:whoami
 
-      # 8. Criar ou usar app existente no Heroku
-      - name: Create Heroku App if it doesn't exist
+      # 8. Build Docker image for Heroku
+      - name: Build Docker image for Heroku
         run: |
-          heroku apps:info -a ${{ secrets.HEROKU_APP_NAME }} || heroku create ${{ secrets.HEROKU_APP_NAME }}
+          docker build -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web -f ./rest-api/Dockerfile ./rest-api
 
-      # 9. Configurar Docker no Heroku
-      - name: Set Heroku stack to container
-        run: heroku stack:set container -a ${{ secrets.HEROKU_APP_NAME }}
+      # 9. List Docker images
+      - name: List Docker images
+        run: docker images
 
-      # 10. Fazer o deploy para o Heroku
-      - name: Deploy to Heroku
-        run: |
-          heroku container:login
-          heroku container:push web -a ${{ secrets.HEROKU_APP_NAME }}
-          heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
+      # 10. Log in to Heroku Container Registry
+      - name: Log in to Heroku Container Registry
+        run: heroku container:login
+
+      # 11. Push Docker image to Heroku
+      - name: Push Docker image to Heroku
+        run: docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+
+      # 12. Release Docker image on Heroku
+      - name: Release Docker image on Heroku
+        run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
