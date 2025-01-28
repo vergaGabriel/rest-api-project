@@ -81,7 +81,8 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
           # Criar o app e capturar o nome gerado
-          APP_NAME=$(heroku create | awk '{print $2}' | sed 's/https:\/\///g' | sed 's/.herokuapp.com//g' | tr -d '\n')
+          heroku create | awk '{print $2}' | sed 's/https:\/\///g' | sed 's/.herokuapp.com//g' 
+          APP_NAME=$(heroku apps:list --json | jq -r '.[] | .name' | tail -n 1) 
     
           echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
 
