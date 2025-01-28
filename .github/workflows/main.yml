@@ -90,6 +90,7 @@ jobs:
         env:
           APP_NAME: ${{ env.APP_NAME }}
         run: |
+          echo ${{ env.APP_NAME }} |
           docker build -t registry.heroku.com/$APP_NAME/web -f ./rest-api/Dockerfile ./rest-api
 
       # 10. List Docker images
