@@ -75,20 +75,7 @@ jobs:
           chmod 600 ~/.netrc
           heroku auth:whoami
 
-      # 8. Build Docker image for Heroku
-      - name: Build Docker image for Heroku
-        run: |
-          docker build -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web -f ./rest-api/Dockerfile ./rest-api
-
-      # 9. List Docker images
-      - name: List Docker images
-        run: docker images
-
-      # 10. Log in to Heroku Container Registry
-      - name: Log in to Heroku Container Registry
-        run: heroku container:login
-
-      # 11. Create Heroku app and store app name
+      # 8. Create Heroku app and store app name
       - name: Create Heroku app and store app name
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
@@ -98,10 +85,23 @@ jobs:
           
           echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
 
-      # 11. Push Docker image to Heroku
+      # 9. Build Docker image for Heroku
+      - name: Build Docker image for Heroku
+        run: |
+          docker build -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web -f ./rest-api/Dockerfile ./rest-api
+
+      # 10. List Docker images
+      - name: List Docker images
+        run: docker images
+
+      # 11. Log in to Heroku Container Registry
+      - name: Log in to Heroku Container Registry
+        run: heroku container:login
+
+      # 12. Push Docker image to Heroku
       - name: Push Docker image to Heroku
         run: docker push registry.heroku.com/$APP_NAME/web
 
-      # 12. Release Docker image on Heroku
+      # 13. Release Docker image on Heroku
       - name: Release Docker image on Heroku
         run: heroku container:release web -a $APP_NAME
