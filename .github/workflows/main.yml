@@ -98,7 +98,7 @@ jobs:
         env:
           APP_NAME: ${{ env.APP_NAME }}
         run: |
-          heroku addons:create heroku-postgresql:hobby-dev --app $APP_NAME
+          heroku addons:create heroku-postgresql:essential-0 --app $APP_NAME
           heroku config --app $APP_NAME
 
       # 10. List Docker images
