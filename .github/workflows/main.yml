@@ -93,6 +93,14 @@ jobs:
         run: |
           docker build -t registry.heroku.com/$APP_NAME/web -f ./rest-api/Dockerfile ./rest-api
 
+      # 10. Add add-on PostgreSQL
+      - name: Add add-on PostgreSQL
+        env:
+          APP_NAME: ${{ env.APP_NAME }}
+        run: |
+          heroku addons:create heroku-postgresql:hobby-dev --app $APP_NAME
+          heroku config --app $APP_NAME
+
       # 10. List Docker images
       - name: List Docker images
         run: docker images
