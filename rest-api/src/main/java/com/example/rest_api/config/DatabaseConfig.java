@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DatabaseConfig {
 
-    @Value("${DATABASE_URL:}")
+    @Value("${DATABASE_URL}")
     private String databaseUrl;
 
     @Bean
