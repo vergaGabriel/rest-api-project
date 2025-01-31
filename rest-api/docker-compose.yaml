@@ -31,7 +31,7 @@ services:
     depends_on:
       - verga-postgres-compose
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:15432/tb_vendas_teste
+      SPRING_DATASOURCE_URL: jdbc:postgresql://verga-postgres-compose:15432/tb_vendas_teste
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgresql
 
